@@ -1,6 +1,3 @@
-
-
-"""
 SELECT *,
   ARRAY(SELECT AS STRUCT
           Jet_pt.list[OFFSET(i)].element AS pt,
@@ -30,5 +27,3 @@ SELECT *,
         FROM UNNEST(Muon_pt.list)WITH OFFSET i
         ) AS Muon
 FROM cloud-shared-execution.root_playground.Run2012B_SingleMu_small
-CROSS JOIN UNNEST(Jet_pt.list) AS Jet_pt_list
-"""
