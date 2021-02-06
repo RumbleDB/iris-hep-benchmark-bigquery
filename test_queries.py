@@ -1,30 +1,61 @@
 #!/usr/bin/env python3
 
+import logging
 from os.path import dirname, join
+import sys
+import time
 
 from google.cloud import bigquery
-from matplotlib import pyplot as plt
 import pandas as pd
+import pytest
 
 
-def test_query(query_id):
-    basedir = dirname(__file__)
-    queryfile = join(basedir, query_id, 'query.sql')
-    reffile = join(basedir, query_id, 'ref.csv')
-    pngfile = join(basedir, query_id, 'plot.png')
+def test_query(query_id, pytestconfig):
+    num_events = pytestconfig.getoption('num_events')
+    num_events = ('-' + str(num_events)) if num_events else ''
 
-    # Read reference result
-    df_ref = pd.read_csv(reffile, sep=',', names=['y', 'x'])
+    base_dir = dirname(__file__)
+    query_dir = join(base_dir, query_id)
+    query_file = join(query_dir, 'query.sql')
+    ref_file = join(query_dir, 'ref{}.csv'.format(num_events))
+    png_file = join(query_dir, 'plot{}.png'.format(num_events))
+
+    bigquery_dataset = pytestconfig.getoption('bigquery_dataset')
+    input_table = pytestconfig.getoption('input_table')
+    input_table = input_table or \
+        'Run2012B_SingleMu{}'.format(num_events.replace('-','_'))
+
+    # Read query
+    with open(query_file, 'r') as f:
+        query = f.read()
+    query = query.format(
+        bigquery_dataset=bigquery_dataset,
+        input_table=input_table,
+    )
 
     # Run query
-    with open(queryfile, 'r') as f:
-        query = f.read()
     client = bigquery.Client()
+    start_timestamp = time.time()
     query_job = client.query(query)
+    end_timestamp = time.time()
     df = query_job.to_dataframe()
 
-    plt.hist(df.x, bins=len(df.index), weights=df.y)
-    plt.savefig(pngfile)
+    running_time = end_timestamp - start_timestamp
+    logging.info('Running time: {:.2f}s'.format(running_time))
+
+    # Freeze reference result
+    if pytestconfig.getoption('freeze_result'):
+        df[['y','x']].to_csv(ref_file, sep=',', index=False)
+
+    # Read reference result
+    df_ref = pd.read_csv(ref_file, sep=',')
+
+    # Plot histogram
+    if pytestconfig.getoption('plot_histogram'):
+        from matplotlib import pyplot as plt
+        plt.hist(df.x, bins=len(df.index), weights=df.y)
+        plt.savefig(png_file)
+        plt.close()
 
     # Normalize reference and query result
     df = df[df.y > 0]
@@ -39,6 +70,4 @@ def test_query(query_id):
 
 
 if __name__ == '__main__':
-    import sys
-    import pytest
     pytest.main(sys.argv)

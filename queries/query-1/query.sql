@@ -6,6 +6,6 @@ SELECT
       ELSE MET_sumet
     END - 10) / 20 AS INT64) * 20 + 10 AS x,
   COUNT(*) AS y
-FROM root_playground.Run2012B_SingleMu_small
+FROM `{bigquery_dataset}.{input_table}`
 GROUP BY x
 ORDER BY x

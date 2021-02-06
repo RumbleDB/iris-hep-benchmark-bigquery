@@ -45,7 +45,7 @@ WITH Leptons AS (
         Pt, Eta, Phi, Mass, Charge, "e" AS Type
       FROM UNNEST(Electron)
     ) AS Lepton
-  FROM root_playground.Run2012B_SingleMu_small_JetsMuonsElectrons
+  FROM `{bigquery_dataset}.{input_table}`
 ),
 TriLeptionsWithOtherLepton AS (
   SELECT

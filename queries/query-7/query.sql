@@ -27,7 +27,7 @@ With GoodJetSumPt AS (
           (SELECT * FROM UNNEST(Electron) e
            WHERE e.pt > 10 AND DeltaR(j, e) < 0.4)
      ) AS sumPt
-  FROM root_playground.Run2012B_SingleMu_small_JetsMuonsElectrons
+  FROM `{bigquery_dataset}.{input_table}`
   WHERE nJet > 0
 )
 SELECT

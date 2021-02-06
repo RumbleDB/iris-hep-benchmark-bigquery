@@ -59,7 +59,7 @@ WITH RunWithTriJets AS (
                              STRUCT(j2.Pt, j2.Eta, j2.Phi, j2.Mass),
                              STRUCT(j3.Pt, j3.Eta, j3.Phi, j3.Mass)) - 172.5) ASC
      LIMIT 1) AS TriJet
-  FROM root_playground.Run2012B_SingleMu_small_JetsMuons
+  FROM `{bigquery_dataset}.{input_table}`
   WHERE nJet >= 3
 )
 SELECT
