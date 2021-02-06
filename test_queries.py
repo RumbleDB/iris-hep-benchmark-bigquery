@@ -45,7 +45,7 @@ def test_query(query_id, pytestconfig):
 
     # Freeze reference result
     if pytestconfig.getoption('freeze_result'):
-        df[['y','x']].to_csv(ref_file, sep=',', index=False)
+        df.to_csv(ref_file, sep=',', index=False)
 
     # Read reference result
     df_ref = pd.read_csv(ref_file, sep=',')
