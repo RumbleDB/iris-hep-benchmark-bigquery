@@ -13,6 +13,6 @@ WHERE nMuon >= 2 AND
    CROSS JOIN UNNEST(Muon) m2 WITH OFFSET j
    WHERE
      m1.charge <> m2.charge AND i < j AND
-     SQRT(2*m1.pt*m2.pt*(COSH(m1.eta-m2.eta)-COS(m1.phi-m2.phi))) BETWEEN 60 AND 100) > 0
+     2*m1.pt*m2.pt*(COSH(m1.eta-m2.eta)-COS(m1.phi-m2.phi)) BETWEEN 60 AND 120) > 0
 GROUP BY x
 ORDER BY x
