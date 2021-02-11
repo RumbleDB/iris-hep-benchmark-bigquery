@@ -8,6 +8,6 @@ SELECT
   COUNT(*) AS y
 FROM `{bigquery_dataset}.{input_table}`
 CROSS JOIN UNNEST(Jet)
-WHERE eta > 1
+WHERE ABS(eta) < 1
 GROUP BY x
 ORDER BY x
