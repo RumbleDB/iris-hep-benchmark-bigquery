@@ -92,7 +92,7 @@ SELECT
       WHEN transverseMass < 15 THEN 14.999
       WHEN transverseMass > 250 THEN 250
       ELSE transverseMass
-    END - 3.25) / 4.7 AS INT64) * 4.7 + 3.25 AS x,
+    END - 1.175) / 2.35 AS INT64) * 2.35 + 1.175 AS x,
   COUNT(*) AS y
 FROM TriLeptionsWithMassAndOtherLepton
 WHERE transverseMass IS NOT NULL

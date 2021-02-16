@@ -36,7 +36,7 @@ SELECT
       WHEN sumPt < 15 THEN 15
       WHEN sumPt > 200 THEN 200
       ELSE sumPt
-    END - 1.125) / 1.85 AS INT64) * 1.85 + 1.125 AS x,
+    END - 0.925) / 1.85 AS INT64) * 1.85 + 0.925 AS x,
   COUNT(*) AS y
 FROM GoodJetSumPt
 WHERE sumPt IS NOT NULL

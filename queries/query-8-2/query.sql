@@ -87,12 +87,12 @@ TriLeptionsWithMassAndOtherLepton AS (
   WHERE BestTriLepton IS NOT NULL
 )
 SELECT
-  FLOOR((
+  CAST((
     CASE
-      WHEN BestTriLepton.otherLepton.pt < 15 THEN 14.55
+      WHEN BestTriLepton.otherLepton.pt < 15 THEN 14.999
       WHEN BestTriLepton.otherLepton.pt > 60 THEN 60
       ELSE BestTriLepton.otherLepton.pt
-    END - 15) / 0.45) * 0.45 + 15 + 0.225 AS x,
+    END - 0.225) / 0.45 AS INT64) * 0.45 + 0.225 AS x,
   COUNT(*) AS y
 FROM TriLeptionsWithMassAndOtherLepton
 WHERE BestTriLepton.otherLepton.pt IS NOT NULL

@@ -68,7 +68,7 @@ SELECT
       WHEN tj.Pt < 15 THEN 15
       WHEN tj.Pt > 40 THEN 40
       ELSE tj.Pt
-    END - 0.375) / 0.25 AS INT64) * 0.25 + 0.375 AS x,
+    END - 0.125) / 0.25 AS INT64) * 0.25 + 0.125 AS x,
   COUNT(*) AS y
 FROM RunWithTriJets
 CROSS JOIN UNNEST(TriJet) AS tj
