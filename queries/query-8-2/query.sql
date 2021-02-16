@@ -46,8 +46,8 @@ TriLeptionsWithOtherLepton AS (
 TriLeptionsWithMassAndOtherLepton AS (
   SELECT
     *,
-    SQRT(2 * MET_pt * BestTriLepton.otherLepton.Pt *
-         (1.0 - COS(DeltaPhi(STRUCT(MET_phi AS Phi),
+    SQRT(2 * MET.pt * BestTriLepton.otherLepton.Pt *
+         (1.0 - COS(DeltaPhi(STRUCT(MET.phi AS Phi),
                              BestTriLepton.otherLepton)))) AS transverseMass
   FROM TriLeptionsWithOtherLepton
   WHERE BestTriLepton IS NOT NULL

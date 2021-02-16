@@ -1,4 +1,11 @@
 SELECT *,
+  STRUCT(MET_pt AS pt,
+         MET_phi AS phi,
+         MET_sumet AS sumet,
+         MET_significance AS significance,
+         MET_CovXX AS CovXX,
+         MET_CovXY AS CovXY,
+         MET_CovYY AS CovYY) AS MET,
   ARRAY(SELECT AS STRUCT
           Jet_pt.list[OFFSET(i)].element AS pt,
           Jet_eta.list[OFFSET(i)].element AS eta,

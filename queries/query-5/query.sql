@@ -1,5 +1,5 @@
 SELECT
-  HistogramBin(MET_sumet, 0, 2000, 100) AS x,
+  HistogramBin(MET.sumet, 0, 2000, 100) AS x,
   COUNT(*) AS y
 FROM `{bigquery_dataset}.{input_table}`
 WHERE nMuon >= 2 AND
