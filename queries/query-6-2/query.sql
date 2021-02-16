@@ -17,12 +17,7 @@ MaxBTags AS (
   FROM RunWithTriJets
 )
 SELECT
-  CAST((
-    CASE
-      WHEN maxBtag < 0 THEN 0
-      WHEN maxBtag > 1 THEN 1
-      ELSE maxBtag
-    END - 0.005) / 0.01 AS INT64) * 0.01 + 0.005 AS x,
+  HistogramBin(maxBtag, 0, 1, 100) AS x,
   COUNT(*) AS y
 FROM MaxBTags
 GROUP BY x

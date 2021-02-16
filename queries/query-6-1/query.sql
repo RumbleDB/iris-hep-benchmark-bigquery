@@ -13,12 +13,7 @@ WITH RunWithTriJets AS (
   WHERE nJet >= 3
 )
 SELECT
-  CAST((
-    CASE
-      WHEN tj.Pt < 15 THEN 15
-      WHEN tj.Pt > 40 THEN 40
-      ELSE tj.Pt
-    END - 0.125) / 0.25 AS INT64) * 0.25 + 0.125 AS x,
+  HistogramBin(tj.Pt, 15, 40, 100) AS x,
   COUNT(*) AS y
 FROM RunWithTriJets
 CROSS JOIN UNNEST(TriJet) AS tj

@@ -16,12 +16,7 @@ With GoodJetSumPt AS (
   WHERE nJet > 0
 )
 SELECT
-  CAST((
-    CASE
-      WHEN sumPt < 15 THEN 15
-      WHEN sumPt > 200 THEN 200
-      ELSE sumPt
-    END - 0.925) / 1.85 AS INT64) * 1.85 + 0.925 AS x,
+  HistogramBin(sumPt, 15, 200, 100) AS x,
   COUNT(*) AS y
 FROM GoodJetSumPt
 WHERE sumPt IS NOT NULL

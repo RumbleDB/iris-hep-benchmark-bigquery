@@ -53,12 +53,7 @@ TriLeptionsWithMassAndOtherLepton AS (
   WHERE BestTriLepton IS NOT NULL
 )
 SELECT
-  CAST((
-    CASE
-      WHEN transverseMass < 15 THEN 14.999
-      WHEN transverseMass > 250 THEN 250
-      ELSE transverseMass
-    END - 1.175) / 2.35 AS INT64) * 2.35 + 1.175 AS x,
+  HistogramBin(transverseMass, 15, 250, 100) AS x,
   COUNT(*) AS y
 FROM TriLeptionsWithMassAndOtherLepton
 WHERE transverseMass IS NOT NULL

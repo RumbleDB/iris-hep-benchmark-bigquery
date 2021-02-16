@@ -53,12 +53,7 @@ TriLeptionsWithMassAndOtherLepton AS (
   WHERE BestTriLepton IS NOT NULL
 )
 SELECT
-  CAST((
-    CASE
-      WHEN BestTriLepton.otherLepton.pt < 15 THEN 14.999
-      WHEN BestTriLepton.otherLepton.pt > 60 THEN 60
-      ELSE BestTriLepton.otherLepton.pt
-    END - 0.225) / 0.45 AS INT64) * 0.45 + 0.225 AS x,
+  HistogramBin(BestTriLepton.otherLepton.pt, 15, 60, 100) AS x,
   COUNT(*) AS y
 FROM TriLeptionsWithMassAndOtherLepton
 WHERE BestTriLepton.otherLepton.pt IS NOT NULL
