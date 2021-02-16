@@ -19,6 +19,7 @@ def test_query(query_id, pytestconfig):
     query_file = join(query_dir, 'query.sql')
     ref_file = join(query_dir, 'ref{}.csv'.format(num_events))
     png_file = join(query_dir, 'plot{}.png'.format(num_events))
+    lib_file = join(base_dir, 'queries', 'common', 'functions.sql')
 
     bigquery_dataset = pytestconfig.getoption('bigquery_dataset')
     input_table = pytestconfig.getoption('input_table')
@@ -32,6 +33,11 @@ def test_query(query_id, pytestconfig):
         bigquery_dataset=bigquery_dataset,
         input_table=input_table,
     )
+
+    # Read function library
+    with open(lib_file, 'r') as f:
+        lib = f.read()
+    query = lib + query
 
     # Run query
     client = bigquery.Client()
