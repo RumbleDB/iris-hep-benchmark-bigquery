@@ -50,4 +50,4 @@ SELECT *,
           Electron_genPartIdx.list[OFFSET(i)].element AS genPartIdx
         FROM UNNEST(Electron_pt.list) WITH OFFSET i
         ) AS Electron
-FROM cloud-shared-execution.root_playground.Run2012B_SingleMu_small
+FROM `dataset_id.table_name`
