@@ -13,7 +13,7 @@ With GoodJetSumPt AS (
            WHERE e.pt > 10 AND DeltaR(j, e) < 0.4)
      ) AS sumPt
   FROM `{bigquery_dataset}.{input_table}`
-  WHERE nJet > 0
+  WHERE ARRAY_LENGTH(Jet) > 0
 )
 SELECT
   HistogramBin(sumPt, 15, 200, 100) AS x,

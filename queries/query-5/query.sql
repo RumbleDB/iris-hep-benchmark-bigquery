@@ -2,7 +2,7 @@ SELECT
   HistogramBin(MET.sumet, 0, 2000, 100) AS x,
   COUNT(*) AS y
 FROM `{bigquery_dataset}.{input_table}`
-WHERE nMuon >= 2 AND
+WHERE ARRAY_LENGTH(Muon) >= 2 AND
   (SELECT COUNT(*) AS mass
    FROM UNNEST(Muon) m1 WITH OFFSET i
    CROSS JOIN UNNEST(Muon) m2 WITH OFFSET j

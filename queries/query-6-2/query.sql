@@ -10,7 +10,7 @@ WITH RunWithTriJets AS (
                              STRUCT(j3.Pt, j3.Eta, j3.Phi, j3.Mass)) - 172.5) ASC
      LIMIT 1) AS TriJet
   FROM `{bigquery_dataset}.{input_table}`
-  WHERE nJet >= 3
+  WHERE ARRAY_LENGTH(Jet) >= 3
 ),
 MaxBTags AS (
   SELECT (SELECT MAX(tj.btag) FROM UNNEST(TriJet) AS tj) AS maxBtag

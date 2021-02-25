@@ -1,7 +1,6 @@
 WITH Leptons AS (
   SELECT
     *,
-    nMuon + nElectron AS nLepton,
     ARRAY(
       SELECT AS STRUCT
         Pt, Eta, Phi, Mass, Charge, "m" AS Type
@@ -41,7 +40,7 @@ TriLeptionsWithOtherLepton AS (
       LIMIT 1
     ) AS BestTriLepton
   FROM Leptons
-  WHERE nLepton >= 3
+  WHERE ARRAY_LENGTH(Lepton) >= 3
 ),
 TriLeptionsWithMassAndOtherLepton AS (
   SELECT
