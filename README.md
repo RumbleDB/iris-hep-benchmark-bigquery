@@ -46,6 +46,13 @@ For convinience, this repository contains a sample of the first 1000 events of t
        iris_hep_benchmark_data.Run2012B_SingleMu_1000 \
        "gs://my-iris-hep-bucket/Run2012B_SingleMu-1000-restructured.parquet"
    ```
+1. Modify the following command to reflect your data set ID and the table you just loaded, then create a view:
+   ```bash
+   bq mk \
+       --use_legacy_sql=false \
+       --view "$(sed "s/dataset_id.table_name/iris_hep_benchmark_data.Run2012B_SingleMu_1000/" view-native.sql)" \
+       iris_hep_benchmark_data.Run2012B_SingleMu_1000_view
+   ```
 
 ### Shredded Objects
 
@@ -54,15 +61,15 @@ For convinience, this repository contains a sample of the first 1000 events of t
    ```bash
    bq load \
        --source_format=PARQUET \
-       iris_hep_benchmark_data.Run2012B_SingleMu_1000_shredded \
+       iris_hep_benchmark_data.Run2012B_SingleMu_shredded_1000 \
        "gs://my-iris-hep-bucket/Run2012B_SingleMu-1000.parquet"
    ```
-1. Modify [`view.sql`](/view.sql) to reflect your data set ID and the table you just loaded, then create a view:
+1. Modify the following command to reflect your data set ID and the table you just loaded, then create a view:
    ```bash
    bq mk \
        --use_legacy_sql=false \
-       --view "$(cat view.sql)" \
-       iris_hep_benchmark_data.Run2012B_SingleMu_1000_view
+       --view "$(sed "s/dataset_id.table_name/iris_hep_benchmark_data.Run2012B_SingleMu_shredded_1000/" view-shredded.sql)" \
+       iris_hep_benchmark_data.Run2012B_SingleMu_shredded_1000_view
    ```
 
 ### Naming Convention for this Implementation

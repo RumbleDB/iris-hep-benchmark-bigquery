@@ -1,4 +1,4 @@
-SELECT *,
+SELECT
   STRUCT(MET_pt AS pt,
          MET_phi AS phi,
          MET_sumet AS sumet,
@@ -6,6 +6,10 @@ SELECT *,
          MET_CovXX AS CovXX,
          MET_CovXY AS CovXY,
          MET_CovYY AS CovYY) AS MET,
+  STRUCT(HLT_IsoMu24_eta2p1 AS IsoMu24_eta2p1,
+         HLT_IsoMu24 AS IsoMu24,
+         HLT_IsoMu17_eta2p1_LooseIsoPFTau20 AS IsoMu17_eta2p1_LooseIsoPFTau20) AS HLT,
+  STRUCT(PV_npvs AS npvs, PV_x AS x, PV_y AS y, PV_z AS z) AS PV,
   ARRAY(SELECT AS STRUCT
           Jet_pt.list[OFFSET(i)].element AS pt,
           Jet_eta.list[OFFSET(i)].element AS eta,
