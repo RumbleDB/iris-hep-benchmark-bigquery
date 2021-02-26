@@ -41,13 +41,28 @@ def test_query(query_id, pytestconfig):
 
     # Run query
     client = bigquery.Client()
-    start_timestamp = time.time()
-    query_job = client.query(query)
-    end_timestamp = time.time()
-    df = query_job.to_dataframe()
 
-    running_time = end_timestamp - start_timestamp
-    logging.info('Running time: {:.2f}s'.format(running_time))
+    submission_start = time.time()
+    query_job = client.query(query)
+    submission_end = time.time()
+
+    job_start = time.time()
+    df = query_job.to_dataframe()
+    job_end = time.time()
+
+    # Log basic statistics
+    submission_time = submission_end - submission_start
+    client_time = job_end - job_start
+    server_time = (query_job.ended - query_job.started).total_seconds()
+    bytes_processed = query_job.total_bytes_processed
+
+    logging.info('Job ID: {}.{}'.format(query_job.location, query_job.job_id))
+
+    logging.info('Submission time: {:.2f}s'.format(submission_time))
+    logging.info('Client time: {:.2f}s'.format(client_time))
+    logging.info('Slot time: {:.2f}s'.format(query_job.slot_millis / 1000))
+    logging.info('Server elapsed time: {:.2f}s'.format(server_time))
+    logging.info('Megabytes processed: {:.2f}MB'.format(bytes_processed / 10**6))
 
     # Freeze reference result
     if pytestconfig.getoption('freeze_result'):
