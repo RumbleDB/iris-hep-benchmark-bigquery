@@ -1,4 +1,5 @@
 SELECT
+  run, luminosityBlock, event,
   STRUCT(MET_pt AS pt,
          MET_phi AS phi,
          MET_sumet AS sumet,
