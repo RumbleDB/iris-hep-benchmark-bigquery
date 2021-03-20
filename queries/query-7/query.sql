@@ -1,4 +1,4 @@
-With GoodJetSumPt AS (
+WITH GoodJetSumPt AS (
   SELECT
     (
       SELECT SUM(j.pt)

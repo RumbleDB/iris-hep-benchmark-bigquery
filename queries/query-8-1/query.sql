@@ -12,7 +12,7 @@ WITH Leptons AS (
     ) AS Lepton
   FROM `{bigquery_dataset}.{input_table}`
 ),
-TriLeptionsWithOtherLepton AS (
+TriLeptonsWithOtherLepton AS (
   SELECT
     *,
     (
@@ -42,19 +42,19 @@ TriLeptionsWithOtherLepton AS (
   FROM Leptons
   WHERE ARRAY_LENGTH(Lepton) >= 3
 ),
-TriLeptionsWithMassAndOtherLepton AS (
+TriLeptonsWithMassAndOtherLepton AS (
   SELECT
     *,
     SQRT(2 * MET.pt * BestTriLepton.otherLepton.Pt *
          (1.0 - COS(DeltaPhi(STRUCT(MET.phi AS Phi),
                              BestTriLepton.otherLepton)))) AS transverseMass
-  FROM TriLeptionsWithOtherLepton
+  FROM TriLeptonsWithOtherLepton
   WHERE BestTriLepton IS NOT NULL
 )
 SELECT
   HistogramBin(transverseMass, 15, 250, 100) AS x,
   COUNT(*) AS y
-FROM TriLeptionsWithMassAndOtherLepton
+FROM TriLeptonsWithMassAndOtherLepton
 WHERE transverseMass IS NOT NULL
 GROUP BY x
 ORDER BY x
