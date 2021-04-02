@@ -60,12 +60,13 @@ CREATE TEMP FUNCTION TriJetMass(
   (AddPtEtaPhiM3(Jet1, Jet2, Jet3).Mass);
 CREATE TEMP FUNCTION HistogramBinHelper(
     value ANY TYPE, lo ANY TYPE, hi ANY TYPE, bin_width ANY TYPE) AS (
-  CAST((
+  FLOOR((
     CASE
       WHEN value < lo THEN lo - bin_width / 4
       WHEN value > hi THEN hi + bin_width / 4
       ELSE value
-    END - bin_width / 2) / bin_width AS INT64) * bin_width + bin_width / 2
+    END - FMod(lo, bin_width)) / bin_width) * bin_width
+      + bin_width / 2 + FMod(lo, bin_width)
 );
 CREATE TEMP FUNCTION HistogramBin(
     value ANY TYPE, lo ANY TYPE, hi ANY TYPE, num_bins ANY TYPE) AS (
