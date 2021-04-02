@@ -19,7 +19,7 @@ def pytest_addoption(parser):
 
 
 def find_queries():
-    basedir = dirname(__file__)
+    basedir = join(dirname(__file__), 'queries')
     queryfiles = glob.glob(join(basedir, '**/query.sql'), recursive=True)
     return sorted([s[len(basedir)+1:-len('/query.sql')] for s in queryfiles])
 

@@ -15,7 +15,7 @@ def test_query(query_id, pytestconfig):
     num_events = ('-' + str(num_events)) if num_events else ''
 
     base_dir = dirname(__file__)
-    query_dir = join(base_dir, query_id)
+    query_dir = join(base_dir, 'queries', query_id)
     query_file = join(query_dir, 'query.sql')
     ref_file = join(query_dir, 'ref{}.csv'.format(num_events))
     png_file = join(query_dir, 'plot{}.png'.format(num_events))
