@@ -68,6 +68,7 @@ def test_query(query_id, pytestconfig):
     df = df[df.y > 0]
     df = df[['x', 'y']]
     df.x = df.x.astype(float).round(6)
+    df.y = df.y.astype(int)
     df.reset_index(drop=True, inplace=True)
 
     # Freeze reference result
@@ -75,7 +76,7 @@ def test_query(query_id, pytestconfig):
         df.to_csv(ref_file, sep=',', index=False)
 
     # Read reference result
-    df_ref = pd.read_csv(ref_file, sep=',')
+    df_ref = pd.read_csv(ref_file, dtype= {'x': float, 'y': int})
 
     # Plot histogram
     if pytestconfig.getoption('plot_histogram'):
@@ -88,6 +89,7 @@ def test_query(query_id, pytestconfig):
     df_ref = df_ref[df_ref.y > 0]
     df_ref = df_ref[['x', 'y']]
     df_ref.x = df_ref.x.astype(float).round(6)
+    df_ref.y = df_ref.y.astype(int)
     df_ref.reset_index(drop=True, inplace=True)
 
     # Assert correct result
