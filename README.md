@@ -27,6 +27,10 @@ For convinience, this repository contains a sample of the first 1000 events of t
 
 ### Native Objects
 
+#### Internal Storage
+
+This loads the data into tables stored in BigQuery's internal storage layer.
+
 1. Set up a bucket and upload the Parquet file(s):
    ```bash
    gsutil mb -l europe-west6 gs://my-iris-hep-bucket  # Adapt the bucket name
@@ -54,7 +58,31 @@ For convinience, this repository contains a sample of the first 1000 events of t
        iris_hep_benchmark_data.Run2012B_SingleMu_1000_view
    ```
 
+#### External Storage
+
+This creates external tables that processes the Parquet files directly off cloud storage.
+
+1. Set up the bucket, data set, and files as described above if you haven't done it yet.
+1. Create a data definition file called `external_1000.json` with the following content:
+   ```JSON
+   {
+     "sourceFormat": "PARQUET",
+     "sourceUris": [
+       "gs://my-iris-hep-bucket/Run2012B_SingleMu-1000-restructured.parquet"
+     ]
+   }
+   ```
+1. Create an external table:
+   ```bash
+   bq mk \
+       --external_table_definition=external_1000.json \
+       iris_hep_benchmark_data.Run2012B_SingleMu_restructured_external_1000
+   ```
+1. Create a corresponding view as described above.
+
 ### Shredded Objects
+
+The following creates an internal table. Creating an external table works similar as described above.
 
 1. Set up the bucket and data set above if you haven't done it yet.
 1. Load a Parquet file into a new table:
